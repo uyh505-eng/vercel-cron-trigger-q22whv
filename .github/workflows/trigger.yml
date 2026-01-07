@@ -1,0 +1,14 @@
+name: Trigger Vercel Cron
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */4 * * *' # Every 4 hours
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hit Vercel Endpoint
+        run: |
+          # Added -m 30 to prevent early timeout if Vercel is slow
+          curl -m 30 -X GET https://v0-twitter-x-posting-app.vercel.app/api/cron
+          echo "Endpoint triggered successfully at $(date)"
